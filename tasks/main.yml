@@ -1,0 +1,41 @@
+---
+# tasks file for ansible-role-cloudwatch_monitoring
+- name: CloudWatch Monitoring | load variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: CloudWatch Monitoring | update packages list
+  apt:
+    update_cache: true
+  when: ansible_os_family == "Debian"
+
+- name: CloudWatch Monitoring | install prerequisites packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages }}"
+
+- name: CloudWatch Monitoring | create installation directory
+  file:
+    path: "{{ install_directory }}"
+    state: directory
+    owner: root
+    group: root
+
+- name: CloudWatch Monitoring | get archive and unarchive it
+  unarchive:
+    src: https://aws-cloudwatch.s3.amazonaws.com/downloads/CloudWatchMonitoringScripts-1.2.2.zip
+    dest: "{{ install_directory }}"
+    remote_src: true
+    extra_opts: "-j"
+
+- name: CloudWatch Monitoring | add monitoring script to crontab
+  cron:
+    name: "collect datas from mon-put-instance-data script"
+    minute: "*/5"
+    job: "{{ install_directory }}/mon-put-instance-data.pl --mem-util --mem-used --mem-avail --auto-scaling=only --from-cron"
+
+- name: CloudWatch Monitoring | remove cached datas to crontab
+  cron:
+    name: "remove cached datas by mon-put-instance-data script"
+    special_time: reboot
+    job: "/bin/rm -rf /var/tmp/aws-mon/*"

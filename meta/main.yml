@@ -1,0 +1,26 @@
+galaxy_info:
+  author: Jérémy Descamps
+  description: your description
+  company: Scalair
+
+  license: GPL-3.0
+
+  min_ansible_version: 2.8
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - 18.04
+    - 16.04
+  - name: Debian
+    versions:
+    - buster
+    - stretch
+    - jessie
+
+  galaxy_tags:
+    - aws
+    - cloudwatch
+    - monitoring
+
+dependencies: []

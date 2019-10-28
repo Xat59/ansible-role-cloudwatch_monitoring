@@ -1,0 +1,10 @@
+---
+# vars file for ansible-role-cloudwatch_monitoring
+packages:
+  - perl-Switch
+  - perl-DateTime
+  - perl-Sys-Syslog
+  - perl-LWP-Protocol-https
+  - perl-Digest-SHA
+  - zip
+  - unzip

@@ -1,0 +1,6 @@
+---
+# vars file for ansible-role-cloudwatch_monitoring
+packages:
+  - unzip
+  - libwww-perl
+  - libdatetime-perl
